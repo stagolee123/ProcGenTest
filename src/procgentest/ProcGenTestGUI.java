@@ -24,20 +24,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ProcGenTestGUI extends JPanel {
-
-    int H = 250;
-    int W = 250;
-    int[][] testArray = new int[H][W];
-    
     private BufferedImage canvas;
+    map newMap;
 
-    public ProcGenTestGUI()
+    public ProcGenTestGUI(map newMap)
     {
+        this.newMap = newMap;
         canvas = new BufferedImage(250, 250, BufferedImage.TYPE_INT_ARGB);
         fillCanvas();
-        pass3();
-        pass2();
-        pass4();
     }
     
     public void paintComponent(Graphics g) {
@@ -47,80 +41,60 @@ public class ProcGenTestGUI extends JPanel {
     }
     
     public void fillCanvas() {
-        int seed = 2632;
-            for (int x = 0; x < H; x++) {
-            for (int y = 0; y < W; y++) {
-                if (x > 5 && y > 5 && (testArray[x - 1][y - 1] == testArray[x - 1][y] || testArray[x - 1][y - 1] == testArray[x][y - 1]) && (testArray[x][y] != testArray[x-5][y-5])) {
-                    if ((this.rndGn()) % seed > 1) {
-                        testArray[x][y] = testArray[x - 1][y - 1];
-                        canvas.setRGB(x,y, -((testArray[x][y])*1000000));   
+            int mapHeight = newMap.HEIGHT;
+                System.out.println("MapHeight: "+ mapHeight);
+            int mapWidth = newMap.WIDTH;
+                System.out.println("MapWidth: "+ mapWidth);
+            int tileSize = newMap.getTileAt(1, 1).getTileSize();
+                System.out.println("TileSize: "+ tileSize);
+            int numberOfHorizontalTiles = (mapHeight/tileSize);
+                System.out.println("numberOfHorizontalTiles: "+ numberOfHorizontalTiles);
+            int numberOfVerticalTiles = (mapWidth/tileSize);
+                System.out.println("numberOfVerticalTiles" + numberOfVerticalTiles);
+            for (int x = 0; x < numberOfHorizontalTiles ; x++)
+            {
+                for (int y = 0; y < numberOfVerticalTiles ; y++)
+                {
+                    for (int a = x*tileSize; a < (x*tileSize)+tileSize; a++) 
+                    {
+                        for (int b = y*tileSize; b < (y*tileSize)+tileSize; b++) 
+                        {
+                            canvas.setRGB(a,b,-getColour((newMap.getTileAt(x, y)).getTileElevation(),(newMap.getTileAt(x, y)).getTileType()));
+                        }
                     }
-
-                } else {
-                    testArray[x][y] = ((this.rndGn())%seed);
-                    canvas.setRGB(x,y, -(((this.rndGn())%seed)*1000000));
-                }
-            }
+                }    
             repaint();
         }
     }
     
-    public void pass2() {
-        int seed = 632;
-            for (int x = 248; x > 0; x--) {
-            for (int y = 248; y > 0; y--) {
-                if (x > 6 && y > 6 && (testArray[x + 1][y + 1] == testArray[x + 1][y] || testArray[x + 1][y + 1] == testArray[x][y + 1]) && (testArray[x][y] != testArray[x-2][y-2])) {
-                    if ((this.rndGn()) % seed > 1) {
-                        testArray[x][y] = testArray[x + 1][y + 1];
-                        canvas.setRGB(x,y, -((testArray[x][y])*1000000));   
-                    }
-
-                } else {
-
-                }
-            }
-            repaint();
+    public int getColour(int elevation, int type){
+        int output;
+        if (type < 5)
+        {
+            output = 5055755;
+            return output;
+        }else
+                   switch (elevation){
+                   case 1: output = 101010;
+                       break;
+                   case 2: output = 202020;
+                       break; 
+                   case 3: output = 303030;
+                       break;   
+                   case 4: output = 404040;
+                       break;   
+                   case 5: output = 505050;
+                       break;   
+                   default: output = 606060;
+                       break;                   
         }
+        return output;      
     }
-    
-        public void pass3() {
-        int seed = 1632;
-            for (int x = 240; x > 0; x--) {
-            for (int y = 0; y < W; y++) {
-                if (x > 6 && y > 6 && (testArray[x + 1][y - 1] == testArray[x + 1][y] || testArray[x + 1][y - 1] == testArray[x][y - 1]) && (testArray[x][y] != testArray[x-5][y-5])) {
-                    if ((this.rndGn()) % seed > 1) {
-                        testArray[x][y] = testArray[x + 1][y - 1];
-                        canvas.setRGB(x,y, -((testArray[x][y])*1000000));   
-                    }
 
-                } else {
-
-                }
-            }
-            repaint();
-        }
-    }
-        public void pass4() {
-        int seed = 3632;
-            for (int x = 0; x < H; x++) {
-            for (int y = 247; y > 0; y--) {
-                if (x > 6 && y > 6 && (testArray[x - 1][y + 1] == testArray[x - 1][y] || testArray[x - 1][y + 1] == testArray[x][y + 1]) && (testArray[x][y] != testArray[x-5][y-5])) {
-                    if ((this.rndGn()) % seed > 1) {
-                        testArray[x][y] = testArray[x - 1][y + 1];
-                        canvas.setRGB(x,y, -((testArray[x][y])*100000));   
-                    }
-
-                } else {
-
-                }
-            }
-            repaint();
-        }
-    }
-    public void createAndShowGUI() {
+    public void createAndShowGUI(map newMap) {
         setBorder(BorderFactory.createLineBorder(Color.black));        
         JFrame f = new JFrame("test");
-        ProcGenTestGUI p = new ProcGenTestGUI();
+        ProcGenTestGUI p = new ProcGenTestGUI(newMap);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(250, 250);
         f.setPreferredSize(new Dimension(250,250));
@@ -131,10 +105,4 @@ public class ProcGenTestGUI extends JPanel {
         p.setVisible(true);
     }
 
-    public int rndGn() {
-        Random rndGn = new Random();
-        int randomInt = (1 + (rndGn.nextInt(9)));
-        return randomInt;
-
-    }
 }
