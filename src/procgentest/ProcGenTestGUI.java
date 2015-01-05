@@ -26,11 +26,13 @@ import java.util.Set;
 public class ProcGenTestGUI extends JPanel {
     private BufferedImage canvas;
     map newMap;
-
+    int mapWIDTH = ProcGenTest.mapWIDTH;
+    int mapHEIGHT = ProcGenTest.mapHEIGHT;
+    
     public ProcGenTestGUI(map newMap)
     {
         this.newMap = newMap;
-        canvas = new BufferedImage(250, 250, BufferedImage.TYPE_INT_ARGB);
+        canvas = new BufferedImage(mapWIDTH, mapHEIGHT, BufferedImage.TYPE_INT_ARGB);
         fillCanvas();
     }
     
@@ -116,10 +118,10 @@ public class ProcGenTestGUI extends JPanel {
         JFrame f = new JFrame("test");
         ProcGenTestGUI p = new ProcGenTestGUI(newMap);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setSize(250, 250);
-        f.setPreferredSize(new Dimension(250,250));
+        f.setSize(mapWIDTH, mapHEIGHT);
+        f.setPreferredSize(new Dimension(mapWIDTH+15, mapHEIGHT+20));
         f.add(p);
-        p.setSize(250, 250);
+        p.setSize(mapWIDTH, mapHEIGHT);
         f.pack();
         f.setVisible(true);
         p.setVisible(true);

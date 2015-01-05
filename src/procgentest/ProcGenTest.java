@@ -14,14 +14,17 @@ import java.util.Random;
 
 public class ProcGenTest {
 
+    
     /**
      * @param args the command line arguments
      */
+    
+    static int mapWIDTH = 500;
+    static int mapHEIGHT = 500;
   
     public static void main(String[] args) {
     
-    int mapWIDTH = 250;
-    int mapHEIGHT = 250;
+
     int tileSize = 10;
     String name = "Map1";
     tile[][] newTileArray = new tile[mapWIDTH][mapHEIGHT];
@@ -33,12 +36,12 @@ public class ProcGenTest {
             }
     map newMap = new map(mapWIDTH,mapHEIGHT,newTileArray,name);
 
-    for (int i = 1; i < 5000; i++) 
+    for (int i = 1; i < 790000; i++) 
     {
 //        mapSmoothing(newMap);
-        int rndW = rndGn(248);
+        int rndW = rndGn(mapWIDTH-2);
  //       System.out.println("rndX: "+rndW);
-        int rndH = rndGn(248);
+        int rndH = rndGn(mapHEIGHT-2);
  //       System.out.println("rndH: "+rndH);
         int TileMiddleElev = (newMap.mapArray[rndW][rndH].getTileElevation());
         int TileBelowElev = (newMap.mapArray[rndW][rndH+1].getTileElevation());
@@ -82,19 +85,19 @@ public class ProcGenTest {
 //        {
 //            newMap.mapArray[rndW][rndH-1].setTileElevation(TileAboveElev+1);
 //        }
-//        if (TileMiddleElev<4&&TileRightElev>3&&TileLeftElev>3&TileAboveElev>3&&TileBelowElev>3)
-//        {
-//            newMap.mapArray[rndW][rndH].setTileElevation(4);
-//            System.out.println("normalized tile: "+ rndW+","+rndH);
-//        }
-//        if (TileMiddleElev>3&&TileRightElev<4&&TileLeftElev<4&TileAboveElev<4&&TileBelowElev<4)
-//        {
-//            newMap.mapArray[rndW][rndH].setTileElevation(3);
-//            System.out.println("normalized tile: "+ rndW+","+rndH);
-//        }
+
            
         newMap.mapArray[rndW][rndH].setTileElevation((TileMiddleElev+TileBelowElev+TileBelowLeftElev+TileBelowRightElev+TileRightElev+TileAboveElev+TileAboveLeftElev+TileAboveRightElev+TileLeftElev)/9);
-        
+         if (TileMiddleElev<4&&TileRightElev>3&&TileLeftElev>3&TileAboveElev>3&&TileBelowElev>3)
+        {
+            newMap.mapArray[rndW][rndH].setTileElevation(4);
+//            System.out.println("normalized tile: "+ rndW+","+rndH);
+        }
+        if (TileMiddleElev>3&&TileRightElev<4&&TileLeftElev<4&TileAboveElev<4&&TileBelowElev<4)
+        {
+            newMap.mapArray[rndW][rndH].setTileElevation(3);
+//            System.out.println("normalized tile: "+ rndW+","+rndH);
+        }       
         
         }
     
@@ -107,7 +110,18 @@ public class ProcGenTest {
         Random rndGn = new Random();
         int randomInt = (1 + (rndGn.nextInt(range)));
         return randomInt;
-    }
+        }
+        
+        public int getMapWidth()
+        {
+            return this.mapWIDTH;
+        }
+        
+        public int getMapHeight()
+        {
+            return this.mapHEIGHT;
+        }
+   
     
 //        public static void mapSmoothing(map newMap)
 //        {
