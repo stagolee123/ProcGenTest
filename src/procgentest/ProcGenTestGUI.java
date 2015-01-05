@@ -59,7 +59,7 @@ public class ProcGenTestGUI extends JPanel {
                     {
                         for (int b = y*tileSize; b < (y*tileSize)+tileSize; b++) 
                         {
-                            canvas.setRGB(a,b,-getColour((newMap.getTileAt(x, y)).getTileElevation(),(newMap.getTileAt(x, y)).getTileType()));
+                            canvas.setRGB(a,b,getColour((newMap.getTileAt(x, y)).getTileElevation(),(newMap.getTileAt(x, y)).getTileType()));
                         }
                     }
                 }    
@@ -69,23 +69,43 @@ public class ProcGenTestGUI extends JPanel {
     
     public int getColour(int elevation, int type){
         int output;
-        if (type < 5)
-        {
-            output = 5055755;
-            return output;
-        }else
-                   switch (elevation){
-                   case 1: output = 101010;
+              switch (elevation){
+                   case 1: 
+                       Color col1 = new Color(31, 133, 235);
+                       output = col1.getRGB();
                        break;
-                   case 2: output = 202020;
+                   case 2: 
+                       Color col2 = new Color(41, 143, 245);
+                       output = col2.getRGB();
                        break; 
-                   case 3: output = 303030;
+                   case 3: 
+                       Color col3 = new Color(51, 153, 255);
+                       output = col3.getRGB();
                        break;   
-                   case 4: output = 404040;
+                   case 4:                        
+                       Color col4 = new Color(140, 170, 65);
+                       output = col4.getRGB();
                        break;   
-                   case 5: output = 505050;
-                       break;   
-                   default: output = 606060;
+                   case 5:                        
+                       Color col5 = new Color(150, 180, 75);
+                       output = col5.getRGB();
+                       break;
+                   case 6:                        
+                       Color col6 = new Color(160, 190, 85);
+                       output = col6.getRGB();
+                       break;
+                   case 7:                        
+                       Color col7 = new Color(170, 200, 95);
+                       output = col7.getRGB();
+                       break;
+                   case 8:                        
+                       Color col8 = new Color(180, 210, 105);
+                       output = col8.getRGB();
+                       break;
+                       
+                  default: 
+                       Color col9 = new Color(190, 220, 115);
+                       output = col9.getRGB();
                        break;                   
         }
         return output;      
@@ -106,3 +126,4 @@ public class ProcGenTestGUI extends JPanel {
     }
 
 }
+
