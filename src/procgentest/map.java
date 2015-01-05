@@ -11,15 +11,15 @@ package procgentest;
  * @author rooneys
  */
 public class map{
+int WIDTH;   
 int HEIGHT;
-int WIDTH;
 tile mapArray[][];
 String mapName;
 
-public map(int h, int w, tile[][] mapArray, String mapName)
+public map(int w, int h, tile[][] mapArray, String mapName)
 {
-this.HEIGHT = h;
 this.WIDTH = w;
+this.HEIGHT = h;
 this.mapArray = mapArray;
 this.mapName = mapName;
 }
